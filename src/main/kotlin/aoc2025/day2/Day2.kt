@@ -1,4 +1,4 @@
-package nl.zeebizon.days.day2
+package aoc2025.day2
 
 import kotlin.system.measureTimeMillis
 

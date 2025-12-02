@@ -1,4 +1,4 @@
-package nl.zeebizon.days.day2
+package aoc2025.day2
 
 class Part1: Part() {
     override fun hasRepeatedSequence(id: Long): Boolean {
