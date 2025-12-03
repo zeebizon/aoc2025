@@ -27,13 +27,17 @@ fun main() {
 }
 
 fun highestJoltage(batteryBank: IntArray, amount: Int) : Long {
-    val batteries = LongArray(amount);
-    var index = -1
-    for (i in 1..amount) {
-        index += 1
-        val max = batteryBank.slice(index until batteryBank.size - (amount-i)).maxOfOrNull { it } ?: 0
-        index += batteryBank.slice(index until batteryBank.size - (amount-i)).indexOfFirst { it == max }
-        batteries[i-1] = max * 10.0.pow(amount-i).toLong()
+    val batteries = LongArray(amount)
+    var index = 0
+    for (i in 0 until amount) {
+        val end = batteryBank.size - (amount - 1 - i)
+        val window = batteryBank.slice(index until end)
+
+        val highest = window.maxOfOrNull { it } ?: 0
+        index += window.indexOf(highest)
+
+        batteries[i] = highest * 10.0.pow(amount - 1 - i).toLong()
+        index++ // move past previously chosen index, to move the window along
     }
     return batteries.sumOf { it }
 }
