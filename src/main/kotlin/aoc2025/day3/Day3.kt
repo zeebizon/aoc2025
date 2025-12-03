@@ -1,6 +1,5 @@
 package aoc2025.day3
 
-import kotlin.math.pow
 import kotlin.system.measureNanoTime
 
 fun main() {
@@ -54,7 +53,7 @@ class Joltage {
                         break;
                 }
             }
-            
+
             index += highestIndex + 1 // move past previously chosen index, to move the window along
             total += highest * powers[amount - 1 - i]
 
