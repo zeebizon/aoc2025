@@ -38,14 +38,14 @@ class Joltage {
     }
 
     fun highestJoltage(batteryBank: IntArray, amount: Int): Long {
-        val batteries = LongArray(amount)
+        var total = 0L
         var index = 0
         for (i in 0 until amount) {
             val end = batteryBank.size - (amount - 1 - i)
             val window = batteryBank.slice(index until end)
-
             var highest = 0
             var highestIndex = 0
+
             for (i in 0 until window.size) {
                 if (window[i] > highest) {
                     highest = window[i]
@@ -54,11 +54,11 @@ class Joltage {
                         break;
                 }
             }
-            index += highestIndex
+            
+            index += highestIndex + 1 // move past previously chosen index, to move the window along
+            total += highest * powers[amount - 1 - i]
 
-            batteries[i] = highest * powers[amount - 1 - i]
-            index++ // move past previously chosen index, to move the window along
         }
-        return batteries.sumOf { it }
+        return total
     }
 }
