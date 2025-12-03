@@ -27,11 +27,11 @@ fun main() {
 }
 
 class Joltage {
-    val powers = LongArray(20)
+    val powers = LongArray(12)
 
     init {
         powers[0] = 1
-        for (i in 1 until 20) {
+        for (i in 1 until 12) {
             powers[i] = powers[i - 1] * 10
         }
     }
