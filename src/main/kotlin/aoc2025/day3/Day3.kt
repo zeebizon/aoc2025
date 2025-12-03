@@ -50,7 +50,7 @@ class Joltage {
                     highest = window[i]
                     highestIndex = i
                     if (highest == 9)
-                        break;
+                        break
                 }
             }
 
