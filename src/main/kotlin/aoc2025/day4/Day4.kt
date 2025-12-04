@@ -57,8 +57,8 @@ private fun calculateAdjacentRolls(
 
     val neighbors = listOf(
         -1 to -1, -1 to 0, -1 to 1,
-        0 to -1, 0 to 1,
-        1 to -1, 1 to 0, 1 to 1
+         0 to -1,           0 to 1,
+         1 to -1,  1 to 0,  1 to 1
     )
 
     fun incrementNeighbours(i: Int, j: Int) {
