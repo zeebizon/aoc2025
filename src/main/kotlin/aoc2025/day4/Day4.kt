@@ -4,13 +4,14 @@ import kotlin.collections.indices
 import kotlin.system.measureNanoTime
 
 fun main() {
-    var input: List<CharArray>
+    var input: Array<CharArray>
     val inputTime = measureNanoTime {
         input = {}::class.java
             .getResource("/day4/input.txt")
             ?.readText()
             ?.lines()
             ?.map { str -> str.toCharArray() }
+            ?.toTypedArray()
             ?: error("Input not found or invalid")
     }
     println("Read input in ${inputTime / 1_000_000.0} ms.")
@@ -19,8 +20,8 @@ fun main() {
     val processTime = measureNanoTime {
         var removed = 1
         while (removed > 0) {
-            val (accessible, newMap) = removeAccessibleRolls(input.toTypedArray())
-            input = newMap.toList()
+            val (accessible, newMap) = removeAccessibleRolls(input)
+            input = newMap
             removed = accessible
             totalRemoved += removed
         }
