@@ -18,17 +18,12 @@ fun main() {
 
     var totalRemoved = 0
     val processTime = measureNanoTime {
-
         val paperRolls = PaperRolls()
-        var removed = 1
-
-        while (removed > 0) {
+        do {
             val (accessible, newMap) = paperRolls.removeAccessibleRolls(input)
             input = newMap
-            removed = accessible
-            totalRemoved += removed
-        }
-
+            totalRemoved += accessible
+        } while (accessible > 0)
     }
 
     println("Removed $totalRemoved in ${processTime / 1_000_000.0} ms.")
