@@ -18,43 +18,24 @@ fun main() {
 
     var totalRemoved = 0
     val processTime = measureNanoTime {
+
+        val paperRolls = PaperRolls()
         var removed = 1
+
         while (removed > 0) {
-            val (accessible, newMap) = removeAccessibleRolls(input)
+            val (accessible, newMap) = paperRolls.removeAccessibleRolls(input)
             input = newMap
             removed = accessible
             totalRemoved += removed
         }
+
     }
+
     println("Removed $totalRemoved in ${processTime / 1_000_000.0} ms.")
 
 }
 
-fun removeAccessibleRolls(input: Array<CharArray>): Pair<Int, Array<CharArray>> {
-    val height = input.size
-    val width = input[0].size
-    val adjacentMap = calculateAdjacentRolls(height, width, input)
-
-    var accessible = 0
-    val newMap = Array(height) { CharArray(width) { '.' } }
-    for (i in input.indices) {
-        for (j in input[i].indices) {
-            if (input[i][j] == '.') continue
-            if (adjacentMap[i][j] >= 4)
-                newMap[i][j] = '@'
-            else if (input[i][j] == '@')
-                accessible++
-        }
-    }
-    return accessible to newMap
-}
-
-private fun calculateAdjacentRolls(
-    height: Int,
-    width: Int,
-    input: Array<CharArray>
-): Array<IntArray> {
-    val adjacentMap = Array(height) { IntArray(width) { 0 } }
+class PaperRolls {
 
     val neighbors = listOf(
         -1 to -1, -1 to 0, -1 to 1,
@@ -62,22 +43,50 @@ private fun calculateAdjacentRolls(
          1 to -1,  1 to 0,  1 to 1
     )
 
-    fun incrementNeighbours(i: Int, j: Int) {
-        for ((hi, wi) in neighbors) {
-            if (i + hi in input.indices
-                && j + wi in input[i + hi].indices
-            )
-                adjacentMap[i + hi][j + wi]++
-        }
-    }
+    fun removeAccessibleRolls(input: Array<CharArray>): Pair<Int, Array<CharArray>> {
+        val height = input.size
+        val width = input[0].size
+        val adjacentMap = calculateAdjacentRolls(height, width, input)
 
-    for (i in input.indices) {
-        for (j in input[i].indices) {
-            val field = input[i][j]
-            if (field == '@') {
-                incrementNeighbours(i, j)
+        var accessible = 0
+        val newMap = Array(height) { CharArray(width) { '.' } }
+        for (i in input.indices) {
+            for (j in input[i].indices) {
+                if (input[i][j] == '.') continue
+                if (adjacentMap[i][j] >= 4)
+                    newMap[i][j] = '@'
+                else if (input[i][j] == '@')
+                    accessible++
             }
         }
+        return accessible to newMap
     }
-    return adjacentMap
+
+    private fun calculateAdjacentRolls(
+        height: Int,
+        width: Int,
+        input: Array<CharArray>
+    ): Array<IntArray> {
+        val adjacentMap = Array(height) { IntArray(width) { 0 } }
+
+        for (i in input.indices) {
+            for (j in input[i].indices) {
+                val field = input[i][j]
+                if (field == '@') {
+                    incrementNeighbours(i, j, adjacentMap)
+                }
+            }
+        }
+        return adjacentMap
+    }
+
+    fun incrementNeighbours(i: Int, j: Int, adjacentMap: Array<IntArray>) {
+        for ((hi, wi) in neighbors) {
+            val ni = i + hi
+            val nj = j + wi
+
+            if ( ni in adjacentMap.indices && nj in adjacentMap[ni].indices )
+                adjacentMap[ni][nj]++
+        }
+    }
 }
