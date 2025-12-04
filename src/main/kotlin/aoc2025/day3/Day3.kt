@@ -10,9 +10,11 @@ fun main() {
             .getResource("/day3/input.txt")
             ?.readText()
             ?.lines()
-            ?.map { str -> str.map {
-                it.digitToInt()
-            }.toIntArray() }
+            ?.map { str ->
+                str.map {
+                    it.digitToInt()
+                }.toIntArray()
+            }
             ?: error("Input not found or invalid")
     }
 
