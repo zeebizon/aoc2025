@@ -23,27 +23,27 @@ fun main() {
         var rest = line
         for ((i, s) in spaces.withIndex()) {
             calculations[i].add(rest.substring(0, min(rest.length, s)).toCharArray())
-            rest = rest.substring(min(rest.length, s + 1))
+            rest = rest.substring(min(rest.length, s + 1)) // remove what we took, + the extra space
         }
     }
 
-    println(doCalculations(calculations))
-    println(fromRightToLeft(calculations))
+    println("Part 1: ${doCalculations(calculations)}")
+    println("Part 2: ${fromRightToLeft(calculations)}")
 }
 
 fun doCalculations(input: List<List<CharArray>>): Long {
     var total = 0L
     for (calc in input) {
         val parts = calc.map { it.concatToString().trim() }
-        var op = parts.last()
-        var v = parts.first().toLong()
+        var operand = parts.last()
+        var subTotal = parts.first().toLong()
         for (n in parts.drop(1).dropLast(1)) {
-            when (op) {
-                "*" -> v *= n.toLong()
-                "+" -> v += n.toLong()
+            when (operand) {
+                "*" -> subTotal *= n.toLong()
+                "+" -> subTotal += n.toLong()
             }
         }
-        total += v
+        total += subTotal
     }
     return total
 }
